@@ -1,0 +1,57 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Favoritos</ion-title>
+    @if (favoritos.length > 0) {
+      <span slot="end" class="contagem">{{ favoritos.length }} {{ favoritos.length === 1 ? 'anime' : 'animes' }}</span>
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    @if (favoritos.length === 0) {
+      <!-- NENHUM FAVORITO AINDA -->
+      <app-estado
+        icone="heart-dislike-outline"
+        titulo="Nenhum favorito por aqui"
+        mensagem="Toque no coração em um anime para guardá-lo nesta lista."
+      >
+        <ion-button class="btn-principal" routerLink="/catalogo">Explorar catálogo</ion-button>
+      </app-estado>
+    } @else {
+      <ul class="lista">
+        @for (anime of favoritos; track anime.mal_id) {
+          <li class="item">
+            <!-- Abre os detalhes -->
+            <button type="button" class="item-abrir" (click)="abrirDetalhes(anime.mal_id)">
+              <img
+                class="item-capa"
+                [src]="imagem(anime)"
+                [alt]="'Pôster de ' + nome(anime)"
+                loading="lazy"
+                (error)="aoFalharImagem($event)"
+              />
+              <span class="item-info">
+                <span class="item-titulo">{{ nome(anime) }}</span>
+                <span class="nota" [appHighlightScore]="anime.score">
+                  <ion-icon name="star"></ion-icon>{{ anime.score | score }}
+                </span>
+                <span class="item-sinopse">{{ anime.synopsis | synopsis: 120 }}</span>
+              </span>
+            </button>
+
+            <!-- Remove dos favoritos -->
+            <ion-button
+              shape="round"
+              [appFavoriteButton]="true"
+              (click)="remover(anime.mal_id)"
+              [attr.aria-label]="'Remover ' + nome(anime) + ' dos favoritos'"
+            >
+              <ion-icon slot="icon-only" name="heart"></ion-icon>
+            </ion-button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</ion-content>

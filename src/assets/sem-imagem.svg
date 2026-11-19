@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">
+  <rect width="200" height="300" fill="#12152e"/>
+  <g fill="none" stroke="#5b61a0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".85">
+    <rect x="62" y="108" width="76" height="60" rx="10"/>
+    <path d="M62 150l22-20 20 18 14-12 20 16"/>
+    <circle cx="88" cy="126" r="5"/>
+  </g>
+  <text x="100" y="206" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#7d84b8">Sem imagem</text>
+</svg>

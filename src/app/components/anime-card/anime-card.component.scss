@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+ion-card.card {
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--app-borda);
+  border-radius: var(--raio-card);
+  background: var(--app-superficie);
+  --background: var(--app-superficie);
+  box-shadow: none;
+  text-align: left;
+}
+
+.capa {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--app-superficie-2);
+}
+
+.capa img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tipo do anime (TV, FILME...) no canto da imagem. */
+.tipo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(8, 10, 28, 0.74);
+  backdrop-filter: blur(6px);
+  color: var(--app-texto);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+ion-card-content {
+  padding: 10px 12px 12px;
+  color: var(--app-texto);
+}
+
+.titulo {
+  display: -webkit-box;
+  min-height: 2.6em;
+  margin-bottom: 6px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  font-family: var(--app-fonte-texto);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.nota {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--app-texto-suave);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.nota ion-icon {
+  font-size: 0.9rem;
+}

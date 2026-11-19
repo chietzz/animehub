@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AnimeHub">
+  <defs>
+    <linearGradient id="g" x1="8" y1="6" x2="58" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#g)"/>
+  <path d="M30 13C31.6 24.4 36.6 29.4 48 31C36.6 32.6 31.6 37.6 30 49C28.4 37.6 23.4 32.6 12 31C23.4 29.4 28.4 24.4 30 13Z" fill="#fff"/>
+  <path d="M46 10C46.6 14.2 48.4 16 52.6 16.6C48.4 17.2 46.6 19 46 23.2C45.4 19 43.6 17.2 39.4 16.6C43.6 16 45.4 14.2 46 10Z" fill="#fff" opacity=".85"/>
+</svg>

@@ -1,0 +1,8 @@
+<div class="estado" [attr.role]="alerta ? 'alert' : 'status'">
+  <div class="icone"><ion-icon [name]="icone"></ion-icon></div>
+  <h3>{{ titulo }}</h3>
+  @if (mensagem) {
+    <p>{{ mensagem }}</p>
+  }
+  <div class="acao"><ng-content></ng-content></div>
+</div>

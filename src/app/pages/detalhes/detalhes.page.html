@@ -1,0 +1,115 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/catalogo" text="" aria-label="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (carregando) {
+    <!-- CARREGANDO -->
+    <div class="container esqueleto" aria-busy="true" aria-label="Carregando detalhes">
+      <ion-skeleton-text [animated]="true" class="sk-poster"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" class="sk-titulo"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" class="sk-linha"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" class="sk-bloco"></ion-skeleton-text>
+    </div>
+  } @else if (erro) {
+    <!-- ERRO (inclui "anime não encontrado") -->
+    <div class="container">
+      <app-estado [alerta]="true" icone="alert-circle-outline" titulo="Não foi possível abrir este anime" [mensagem]="erro">
+        <div class="acoes-erro">
+          <ion-button class="btn-principal" (click)="carregar()">
+            <ion-icon slot="start" name="refresh"></ion-icon>
+            Tentar novamente
+          </ion-button>
+          <ion-button class="btn-secundario" routerLink="/catalogo">Voltar ao catálogo</ion-button>
+        </div>
+      </app-estado>
+    </div>
+  } @else if (anime) {
+    <article>
+      <!-- Topo: imagem, nome, nota e botão de favorito -->
+      <section class="topo">
+        <img class="topo-fundo" [src]="imagem" alt="" aria-hidden="true" />
+        <div class="container topo-conteudo">
+          <img class="poster" [src]="imagem" [alt]="'Pôster de ' + nome" (error)="aoFalharImagem($event)" />
+          <div class="topo-info">
+            @if (tipo) {
+              <span class="selo">{{ tipo | uppercase }}</span>
+            }
+            <h1>{{ nome }}</h1>
+            @if (nomeOriginal) {
+              <p class="original">Nome original: {{ nomeOriginal }}</p>
+            }
+            <p class="nota-grande" [appHighlightScore]="anime.score">
+              <ion-icon name="star"></ion-icon>{{ anime.score | score }}
+            </p>
+            <ion-button class="btn-favoritar" [appFavoriteButton]="favorito" (click)="alternarFavorito()">
+              <ion-icon slot="start" [name]="favorito ? 'heart' : 'heart-outline'"></ion-icon>
+              {{ favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}
+            </ion-button>
+          </div>
+        </div>
+      </section>
+
+      <div class="container corpo">
+        <!-- Informações rápidas -->
+        <div class="fatos">
+          <div class="fato">
+            <ion-icon name="albums-outline"></ion-icon>
+            <span class="rotulo">Episódios</span>
+            <strong>{{ anime.episodes ?? 'Não informado' }}</strong>
+          </div>
+          <div class="fato">
+            <ion-icon name="pulse-outline"></ion-icon>
+            <span class="rotulo">Status</span>
+            <strong>{{ status }}</strong>
+          </div>
+          <div class="fato">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span class="rotulo">Lançamento</span>
+            <strong>
+              @if (anime.aired?.from) {
+                {{ anime.aired?.from | date: 'longDate' : 'UTC' }}
+              } @else {
+                Data não informada
+              }
+            </strong>
+          </div>
+          <div class="fato">
+            <ion-icon name="time-outline"></ion-icon>
+            <span class="rotulo">Duração</span>
+            <strong>{{ duracao }}</strong>
+          </div>
+        </div>
+
+        <!-- Gêneros -->
+        <section class="bloco">
+          <h2>Gêneros</h2>
+          <div class="tags">
+            @for (genero of generos; track genero.id) {
+              <ion-chip class="tag">{{ genero.nome }}</ion-chip>
+            } @empty {
+              <p class="sem-info">Gêneros não informados.</p>
+            }
+          </div>
+        </section>
+
+        <!-- Sinopse -->
+        <section class="bloco">
+          <h2>Sinopse</h2>
+          <p class="sinopse">{{ anime.synopsis | synopsis: limiteAtual }}</p>
+          @if (precisaDeLerMais) {
+            <button type="button" class="ler-mais" (click)="alternarSinopse()">
+              {{ sinopseCompleta ? 'Mostrar menos' : 'Ler sinopse completa' }}
+            </button>
+          }
+          <p class="fonte">Sinopse em inglês, fornecida pela Kitsu API.</p>
+        </section>
+      </div>
+    </article>
+  }
+</ion-content>

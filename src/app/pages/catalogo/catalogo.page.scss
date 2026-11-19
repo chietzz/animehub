@@ -1,0 +1,90 @@
+.barra-busca {
+  padding: 0 8px 4px;
+}
+
+ion-searchbar {
+  --background: var(--app-superficie);
+  --border-radius: 14px;
+  --box-shadow: none;
+  --color: var(--app-texto);
+  --placeholder-color: var(--app-texto-suave);
+  --placeholder-opacity: 1;
+  --icon-color: var(--app-violeta-claro);
+  --clear-button-color: var(--app-texto-suave);
+  padding: 4px 8px;
+}
+
+/* ---------- Filtro por gênero ---------- */
+.generos {
+  display: flex;
+  gap: 8px;
+  margin: 4px -16px 6px;
+  padding: 4px 16px 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.generos::-webkit-scrollbar {
+  display: none;
+}
+
+ion-chip.genero {
+  flex: none;
+  min-height: 34px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--app-borda);
+  --background: var(--app-superficie);
+  --color: var(--app-texto-suave);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+ion-chip.genero.ativo {
+  border-color: transparent;
+  --background: var(--app-gradiente);
+  --color: #fff;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .generos {
+    flex-wrap: wrap;
+    margin: 4px 0 6px;
+    padding: 4px 0 8px;
+  }
+}
+
+.contexto {
+  margin: 6px 0 14px;
+  color: var(--app-texto-suave);
+  font-size: 0.9rem;
+}
+
+/* ---------- Grade de cards (se adapta à largura da tela) ---------- */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 16px 14px;
+}
+
+@media (min-width: 768px) {
+  .grade {
+    grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+    gap: 22px 18px;
+  }
+}
+
+.mais {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.erro-mais {
+  color: var(--app-texto-suave);
+  font-size: 0.88rem;
+  text-align: center;
+}

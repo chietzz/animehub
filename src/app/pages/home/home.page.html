@@ -1,0 +1,141 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+      <span class="marca">
+        <img src="assets/logo.svg" alt="" width="34" height="34" />
+        <span class="marca-nome">AnimeHub</span>
+      </span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/catalogo" aria-label="Pesquisar animes">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    @if (erro) {
+      <!-- ERRO: a API não respondeu -->
+      <app-estado
+        [alerta]="true"
+        icone="cloud-offline-outline"
+        titulo="Não foi possível carregar os animes"
+        [mensagem]="erro"
+      >
+        <ion-button class="btn-principal" (click)="carregar()">
+          <ion-icon slot="start" name="refresh"></ion-icon>
+          Tentar novamente
+        </ion-button>
+      </app-estado>
+    } @else {
+      <!-- 1) DESTAQUE -->
+      @if (carregando) {
+        <section class="hero hero--esqueleto" aria-busy="true" aria-label="Carregando destaque">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </section>
+      } @else if (destaque) {
+        <section class="hero" aria-label="Anime em destaque">
+          <img class="hero-fundo" [src]="imagemDestaque" alt="" aria-hidden="true" />
+          <div class="hero-conteudo">
+            <img
+              class="hero-poster"
+              [src]="imagemDestaque"
+              [alt]="'Pôster de ' + nomeDestaque"
+              (error)="aoFalharImagem($event)"
+            />
+            <div class="hero-texto">
+              <div class="hero-meta">
+                @if (tipoDestaque) {
+                  <span class="selo">{{ tipoDestaque | uppercase }}</span>
+                }
+                <span class="nota" [appHighlightScore]="destaque.score">
+                  <ion-icon name="star"></ion-icon>{{ destaque.score | score }}
+                </span>
+                @if (destaque.episodes) {
+                  <span class="meta-item">{{ destaque.episodes }} episódios</span>
+                }
+              </div>
+              <h2 class="hero-titulo">{{ nomeDestaque }}</h2>
+              <p class="hero-sinopse">{{ destaque.synopsis | synopsis: 170 }}</p>
+              <div class="hero-acoes">
+                <ion-button class="btn-principal" (click)="abrirDetalhes(destaque.mal_id)">Ver detalhes</ion-button>
+                <ion-button
+                  shape="round"
+                  [appFavoriteButton]="isFavorito(destaque.mal_id)"
+                  (click)="alternarFavorito(destaque)"
+                  [attr.aria-label]="isFavorito(destaque.mal_id) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
+                >
+                  <ion-icon slot="icon-only" [name]="isFavorito(destaque.mal_id) ? 'heart' : 'heart-outline'"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- 2) ATALHOS: navegação para o Catálogo e para os Favoritos -->
+      <nav class="atalhos" aria-label="Atalhos">
+        <a class="atalho" routerLink="/catalogo">
+          <span class="atalho-icone"><ion-icon name="film-outline"></ion-icon></span>
+          <span class="atalho-texto">
+            <strong>Explorar catálogo</strong>
+            <small>Pesquise por nome ou gênero</small>
+          </span>
+        </a>
+        <a class="atalho" routerLink="/favoritos">
+          <span class="atalho-icone"><ion-icon name="heart-outline"></ion-icon></span>
+          <span class="atalho-texto">
+            <strong>Meus favoritos</strong>
+            <small>{{ totalFavoritos }} {{ totalFavoritos === 1 ? 'anime salvo' : 'animes salvos' }}</small>
+          </span>
+        </a>
+      </nav>
+
+      <!-- 3) ANIMES POPULARES -->
+      <section class="secao" aria-labelledby="titulo-populares">
+        <header class="secao-topo">
+          <h2 id="titulo-populares"><ion-icon name="flame"></ion-icon>Populares agora</h2>
+          <a class="ver-tudo" routerLink="/catalogo">Ver tudo<ion-icon name="chevron-forward"></ion-icon></a>
+        </header>
+        <div class="carrossel">
+          @if (carregando) {
+            @for (n of esqueletos; track n) {
+              <app-card-esqueleto />
+            }
+          } @else {
+            @for (anime of populares; track anime.mal_id) {
+              <app-anime-card [anime]="anime" (abrir)="abrirDetalhes($event)" />
+            } @empty {
+              <p class="vazio">Nenhum anime disponível no momento.</p>
+            }
+          }
+        </div>
+      </section>
+
+      <!-- 4) ANIMES MAIS BEM AVALIADOS -->
+      <section class="secao" aria-labelledby="titulo-melhores">
+        <header class="secao-topo">
+          <h2 id="titulo-melhores"><ion-icon name="trophy"></ion-icon>Mais bem avaliados</h2>
+          <a class="ver-tudo" routerLink="/catalogo">Ver tudo<ion-icon name="chevron-forward"></ion-icon></a>
+        </header>
+        <div class="carrossel">
+          @if (carregando) {
+            @for (n of esqueletos; track n) {
+              <app-card-esqueleto />
+            }
+          } @else {
+            @for (anime of melhores; track anime.mal_id) {
+              <app-anime-card [anime]="anime" (abrir)="abrirDetalhes($event)" />
+            } @empty {
+              <p class="vazio">Nenhum anime disponível no momento.</p>
+            }
+          }
+        </div>
+      </section>
+
+      <p class="creditos">Dados fornecidos pela Kitsu API.</p>
+    }
+  </div>
+</ion-content>

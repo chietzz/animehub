@@ -1,0 +1,90 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Catálogo</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="barra-busca">
+    <ion-searchbar
+      #campoBusca
+      [debounce]="600"
+      placeholder="Pesquisar anime pelo nome"
+      enterkeyhint="search"
+      (ionInput)="aoDigitar($event)"
+      (ionClear)="aoLimpar()"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <!-- Filtro por gênero -->
+    <div class="generos" role="group" aria-label="Filtrar por gênero">
+      @for (opcao of opcoesGenero; track opcao.nome) {
+        <ion-chip
+          class="genero"
+          [class.ativo]="generoSelecionado === opcao.id"
+          role="button"
+          tabindex="0"
+          [attr.aria-pressed]="generoSelecionado === opcao.id"
+          (click)="selecionarGenero(opcao.id)"
+          (keydown.enter)="selecionarGenero(opcao.id)"
+          (keydown.space)="selecionarGenero(opcao.id); $event.preventDefault()"
+        >
+          {{ opcao.nome }}
+        </ion-chip>
+      }
+    </div>
+
+    <p class="contexto" aria-live="polite">{{ descricao }}</p>
+
+    @if (carregando) {
+      <!-- CARREGANDO -->
+      <div class="grade" aria-busy="true" aria-label="Carregando animes">
+        @for (n of esqueletos; track n) {
+          <app-card-esqueleto />
+        }
+      </div>
+    } @else if (erro) {
+      <!-- ERRO -->
+      <app-estado
+        [alerta]="true"
+        icone="cloud-offline-outline"
+        titulo="Não foi possível carregar o catálogo"
+        [mensagem]="erro"
+      >
+        <ion-button class="btn-principal" (click)="buscar()">
+          <ion-icon slot="start" name="refresh"></ion-icon>
+          Tentar novamente
+        </ion-button>
+      </app-estado>
+    } @else if (animes.length === 0) {
+      <!-- NENHUM RESULTADO -->
+      <app-estado icone="search-outline" titulo="Nenhum anime encontrado" [mensagem]="mensagemVazia">
+        <ion-button class="btn-secundario" (click)="limparFiltros(campoBusca)">Limpar pesquisa</ion-button>
+      </app-estado>
+    } @else {
+      <!-- LISTA DE ANIMES -->
+      <div class="grade">
+        @for (anime of animes; track anime.mal_id) {
+          <app-anime-card [anime]="anime" (abrir)="abrirDetalhes($event)" />
+        }
+      </div>
+
+      @if (temMais || erroMais) {
+        <div class="mais">
+          @if (erroMais) {
+            <p class="erro-mais" role="alert">{{ erroMais }}</p>
+          }
+          @if (temMais) {
+            <ion-button class="btn-secundario" [disabled]="carregandoMais" (click)="carregarMais()">
+              @if (carregandoMais) {
+                <ion-spinner name="dots"></ion-spinner>
+              } @else {
+                Carregar mais animes
+              }
+            </ion-button>
+          }
+        </div>
+      }
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  flex: none;
+}
+
+ion-tab-bar {
+  --background: rgba(8, 10, 28, 0.94);
+  --border: 0;
+  min-height: 58px;
+  border-top: 1px solid var(--app-borda);
+  backdrop-filter: blur(14px);
+}
+
+ion-tab-button {
+  --color: var(--app-texto-suave);
+  --color-selected: var(--app-violeta-claro);
+  --background-focused: rgba(139, 92, 246, 0.14);
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+ion-tab-button ion-icon {
+  font-size: 1.45rem;
+}
+
+/* Marca a aba atual com uma barrinha no topo. */
+ion-tab-button.tab-selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 30px;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 0 0 4px 4px;
+  background: var(--app-gradiente);
+}

@@ -1,0 +1,9 @@
+<ion-tab-bar>
+  @for (aba of abas; track aba.rota) {
+    <!-- routerLinkActive coloca a classe "tab-selected" na aba da página atual -->
+    <ion-tab-button [routerLink]="aba.rota" routerDirection="root" routerLinkActive="tab-selected">
+      <ion-icon [name]="aba.icone"></ion-icon>
+      <ion-label>{{ aba.titulo }}</ion-label>
+    </ion-tab-button>
+  }
+</ion-tab-bar>

@@ -1,0 +1,161 @@
+/* =====================================================================
+   Estilos globais do AnimeHub
+   As cores e fontes estão em src/theme/variables.scss
+   ===================================================================== */
+
+html,
+body {
+  height: 100%;
+  background: var(--app-fundo);
+}
+
+body {
+  font-family: var(--app-fonte-texto);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--app-texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--app-fonte-titulo);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  display: block;
+}
+
+/* ---------- Estrutura das páginas ---------- */
+ion-content {
+  --background: var(--app-fundo);
+  --color: var(--app-texto);
+}
+
+ion-header.header-md::after {
+  display: none;
+}
+
+ion-toolbar {
+  --background: var(--app-fundo);
+  --color: var(--app-texto);
+  --border-width: 0;
+  --min-height: 58px;
+}
+
+/* Em telas grandes, alinha o cabeçalho com o conteúdo centralizado. */
+@media (min-width: 1236px) {
+  ion-header ion-toolbar {
+    --padding-start: calc((100vw - 1180px) / 2 + 12px);
+    --padding-end: calc((100vw - 1180px) / 2 + 12px);
+  }
+}
+
+ion-title {
+  font-family: var(--app-fonte-titulo);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Centraliza o conteúdo e limita a largura em telas grandes (computador). */
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 28px 40px;
+  }
+}
+
+/* ---------- Botões ---------- */
+ion-button {
+  --border-radius: 999px;
+  --box-shadow: none;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+ion-button.btn-principal {
+  --background: var(--app-gradiente);
+  --background-hover: var(--app-gradiente);
+  --background-activated: var(--app-gradiente);
+  --background-focused: var(--app-gradiente);
+  --color: #fff;
+  --box-shadow: 0 12px 28px -12px rgba(99, 102, 241, 0.95);
+}
+
+ion-button.btn-secundario {
+  --background: rgba(255, 255, 255, 0.09);
+  --background-hover: rgba(255, 255, 255, 0.15);
+  --color: var(--app-texto);
+}
+
+/* ---------- Estilos usados pelas DIRETIVAS personalizadas ---------- */
+
+/* FavoriteButtonDirective: botão de coração. A classe --ativo aparece quando o anime está nos favoritos. */
+ion-button.btn-favorito {
+  --background: rgba(255, 255, 255, 0.1);
+  --background-hover: rgba(255, 255, 255, 0.18);
+  --background-activated: rgba(255, 255, 255, 0.18);
+  --color: var(--app-texto);
+}
+
+ion-button.btn-favorito--ativo {
+  --background: var(--app-rosa);
+  --background-hover: #ff6aa0;
+  --background-activated: #ff6aa0;
+  --color: #fff;
+  --box-shadow: 0 10px 26px -10px rgba(255, 77, 141, 0.95);
+}
+
+/* Pulso rápido que confirma o toque no botão (resposta a uma ação do usuário). */
+ion-button.btn-favorito--pulsando {
+  animation: pulsar-coracao 0.45s ease;
+}
+
+@keyframes pulsar-coracao {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.16);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- Acessibilidade ---------- */
+button:focus-visible,
+a:focus-visible,
+ion-chip:focus-visible {
+  outline: 2px solid var(--app-violeta-claro);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

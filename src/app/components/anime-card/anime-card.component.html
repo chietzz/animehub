@@ -1,0 +1,14 @@
+<ion-card button="true" type="button" class="card" (click)="aoClicar()">
+  <div class="capa">
+    <img [src]="imagem" [alt]="'Pôster de ' + nome" loading="lazy" (error)="aoFalharImagem($event)" />
+    @if (tipo) {
+      <span class="tipo">{{ tipo | uppercase }}</span>
+    }
+  </div>
+  <ion-card-content>
+    <h3 class="titulo">{{ nome }}</h3>
+    <span class="nota" [appHighlightScore]="anime.score">
+      <ion-icon name="star"></ion-icon>{{ anime.score | score }}
+    </span>
+  </ion-card-content>
+</ion-card>
