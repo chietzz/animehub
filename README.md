@@ -8,7 +8,6 @@ Necessário Node.js 18+ e acesso à internet.
 
 ```powershell
 npm install
-npm run test:api
 npm start
 ```
 
